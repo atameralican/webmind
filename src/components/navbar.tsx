@@ -110,7 +110,7 @@ export function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              className="h-9 w-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200"
+              className="hidden sm:flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200"
             >
               <GitHubIcon className="h-4 w-4" />
             </a>
@@ -120,7 +120,7 @@ export function Navbar() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              className="h-9 w-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200"
+              className="hidden sm:flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200"
             >
               <LinkedInIcon className="h-4 w-4" />
             </a>

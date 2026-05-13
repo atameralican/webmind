@@ -123,10 +123,10 @@ export default function TransformersPage() {
 
       {/* ── Main 2-column layout ── */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex gap-6 items-start">
+        <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
 
           {/* ── Left: Model list sidebar ── */}
-          <aside className="w-64 xl:w-72 shrink-0 sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto pr-1">
+          <aside className="w-full lg:w-64 xl:w-72 lg:shrink-0 lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pr-1">
             {/* Filter pills */}
             <div className="mb-4">
               <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">
@@ -156,7 +156,7 @@ export default function TransformersPage() {
             </p>
 
             {/* AnimatedList model items */}
-            <div className="space-y-1.5">
+            <div className="flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0">
               {filteredModels.map((model, i) => {
                 const state = modelStates[model.id];
                 const isSelected = activeModelId === model.id;
@@ -172,7 +172,7 @@ export default function TransformersPage() {
                     whileHover={{ x: 3, transition: { duration: 0.15 } }}
                     onClick={() => setActiveModelId(model.id)}
                     className={cn(
-                      "w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200",
+                      "shrink-0 w-44 lg:w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200",
                       isSelected
                         ? "bg-primary/10 border-primary/40 shadow-sm"
                         : "bg-card border-border hover:border-primary/30 hover:bg-primary/5"
@@ -221,18 +221,18 @@ export default function TransformersPage() {
                   exit={{ opacity: 0, y: -16 }}
                   transition={{ duration: 0.25 }}
                 >
-                  <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border/50">
-                    <span className="text-3xl">{activeModel.companyLogo}</span>
-                    <div>
-                      <h2 className="font-bold text-lg leading-tight">{activeModel.name}</h2>
-                      <p className="text-xs text-muted-foreground">
+                  <div className="flex items-center gap-3 mb-5 pb-4 border-b border-border/50 flex-wrap">
+                    <span className="text-3xl shrink-0">{activeModel.companyLogo}</span>
+                    <div className="flex-1 min-w-0">
+                      <h2 className="font-bold text-lg leading-tight truncate">{activeModel.name}</h2>
+                      <p className="text-xs text-muted-foreground truncate">
                         {activeModel.company} · {locale === "tr" ? activeModel.taskLabel.tr : activeModel.taskLabel.en}
                       </p>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
-                      className="ml-auto text-xs hover:border-destructive/50 hover:text-destructive transition-colors"
+                      className="ml-auto shrink-0 text-xs hover:border-destructive/50 hover:text-destructive transition-colors"
                       onClick={() => handleUnload(activeModel.id)}
                     >
                       {mt("unload")}
@@ -384,8 +384,8 @@ export default function TransformersPage() {
                   </h2>
                   <p className="text-muted-foreground text-sm max-w-sm leading-relaxed">
                     {locale === "tr"
-                      ? "Soldaki listeden bir Transformers.js modeli seçin. NLP, görsel, ses ve çok modlu görevler desteklenir."
-                      : "Pick a Transformers.js model from the left. NLP, vision, audio and multimodal tasks supported."}
+                      ? "Listeden bir Transformers.js modeli seçin. NLP, görsel, ses ve çok modlu görevler desteklenir."
+                      : "Pick a Transformers.js model from the list. NLP, vision, audio and multimodal tasks supported."}
                   </p>
                   <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-md">
                     {[
