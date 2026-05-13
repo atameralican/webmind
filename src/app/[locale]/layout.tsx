@@ -15,8 +15,8 @@ import "../globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://webmind-ai.vercel.app"),
   title: {
-    default: "WebMind — Run AI Models in Your Browser",
-    template: "%s | WebMind",
+    default: "WebMind AI — Run AI Models in Your Browser",
+    template: "%s | WebMind AI",
   },
   description:
     "Run powerful AI models — WebLLM LLMs and Transformers.js tasks — directly in your browser using WebGPU. No server, no cloud, complete privacy.",
@@ -34,13 +34,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://webmind-ai.vercel.app",
     siteName: "WebMind",
-    title: "WebMind — Run AI Models in Your Browser",
+    title: "WebMind AI — Run AI Models in Your Browser",
     description: "WebGPU-powered AI models running directly in your browser. No server required.",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "WebMind — Browser AI Hub" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WebMind — Run AI Models in Your Browser",
+    title: "WebMind AI — Run AI Models in Your Browser",
     description: "WebGPU-powered AI models running directly in your browser.",
     images: ["/opengraph-image"],
     creator: "@atameralican",
