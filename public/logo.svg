@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded square -->
+  <rect x="4" y="4" width="92" height="92" rx="24" fill="url(#bg)"/>
+  <rect x="4" y="4" width="92" height="46" rx="24" fill="url(#shine)"/>
+  <!-- Neural network: nodes form a stylized W -->
+  <!-- Top-left -->
+  <circle cx="24" cy="30" r="7" fill="white" opacity="0.92"/>
+  <!-- Mid-left valley -->
+  <circle cx="37" cy="56" r="6.5" fill="white" opacity="0.88"/>
+  <!-- Center peak -->
+  <circle cx="50" cy="38" r="8.5" fill="white"/>
+  <!-- Mid-right valley -->
+  <circle cx="63" cy="56" r="6.5" fill="white" opacity="0.88"/>
+  <!-- Top-right -->
+  <circle cx="76" cy="30" r="7" fill="white" opacity="0.92"/>
+  <!-- Bottom anchor -->
+  <circle cx="50" cy="72" r="5.5" fill="white" opacity="0.7"/>
+  <!-- Main W connections -->
+  <line x1="24" y1="30" x2="37" y2="56" stroke="white" stroke-width="2.8" stroke-linecap="round" opacity="0.65"/>
+  <line x1="37" y1="56" x2="50" y2="38" stroke="white" stroke-width="2.8" stroke-linecap="round" opacity="0.65"/>
+  <line x1="50" y1="38" x2="63" y2="56" stroke="white" stroke-width="2.8" stroke-linecap="round" opacity="0.65"/>
+  <line x1="63" y1="56" x2="76" y2="30" stroke="white" stroke-width="2.8" stroke-linecap="round" opacity="0.65"/>
+  <!-- Bottom connections -->
+  <line x1="37" y1="56" x2="50" y2="72" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.45"/>
+  <line x1="63" y1="56" x2="50" y2="72" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.45"/>
+  <!-- Cross-connections (subtle) -->
+  <line x1="24" y1="30" x2="50" y2="38" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.22"/>
+  <line x1="76" y1="30" x2="50" y2="38" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.22"/>
+</svg>
