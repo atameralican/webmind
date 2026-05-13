@@ -13,7 +13,7 @@ import "../globals.css";
 
 // SEO — Tüm sayfalara uygulanır, her sayfa kendi metadata'sını override edebilir
 export const metadata: Metadata = {
-  metadataBase: new URL("https://actigravity-ai.vercel.app"),
+  metadataBase: new URL("https://webmind-ai.vercel.app"),
   title: {
     default: "WebMind — Run AI Models in Your Browser",
     template: "%s | WebMind",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://actigravity-ai.vercel.app",
+    url: "https://webmind-ai.vercel.app",
     siteName: "WebMind",
     title: "WebMind — Run AI Models in Your Browser",
     description: "WebGPU-powered AI models running directly in your browser. No server required.",
