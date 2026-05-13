@@ -51,8 +51,7 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large" },
   },
   verification: {
-    // Google Search Console doğrulama token'ı buraya eklenecek
-    // google: "YOUR_VERIFICATION_TOKEN",
+    google: "bvZZ8jKx59FGixcKj0pF23HBKdXdZ4VsBfYYZd57ABw",
   },
 };
 
