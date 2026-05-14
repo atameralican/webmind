@@ -5,6 +5,6 @@ export const routing = defineRouting({
   locales: ["en", "tr"],
   defaultLocale: "en",
   localePrefix: "as-needed",
-  // NEXT_LOCALE cookie — kullanıcı tercihi Accept-Language header'ını override eder
+  localeDetection: false,
   localeCookie: { name: "NEXT_LOCALE", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" },
 });
