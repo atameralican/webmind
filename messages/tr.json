@@ -133,7 +133,9 @@
     "links": "Bağlantılar",
     "home": "Ana Sayfa",
     "webllm": "WebLLM",
-    "transformers": "Transformers.js"
+    "transformers": "Transformers.js",
+    "about": "Hakkında",
+    "privacy": "Gizlilik Politikası"
   },
   "errors": {
     "modelLoad": "Model yüklenemedi. Lütfen tekrar deneyin.",

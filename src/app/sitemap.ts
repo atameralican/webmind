@@ -9,18 +9,16 @@ type PageConfig = {
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
 };
 
-// All crawlable pages, including Turkish (/tr) alternates.
-// x-default hreflang tells Google which URL to show for unmatched locales.
 const pages: PageConfig[] = [
-  { path: "",           priority: 1.0, changeFrequency: "weekly"  },
-  { path: "/webllm",   priority: 0.9, changeFrequency: "weekly"  },
-  { path: "/transformers", priority: 0.9, changeFrequency: "weekly" },
-  { path: "/about",    priority: 0.7, changeFrequency: "monthly" },
-  { path: "/privacy",  priority: 0.4, changeFrequency: "yearly"  },
+  { path: "",               priority: 1.0, changeFrequency: "weekly"  },
+  { path: "/webllm",        priority: 0.9, changeFrequency: "weekly"  },
+  { path: "/transformers",  priority: 0.9, changeFrequency: "weekly"  },
+  { path: "/about",         priority: 0.7, changeFrequency: "monthly" },
+  { path: "/privacy",       priority: 0.4, changeFrequency: "yearly"  },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return pages.map(({ path, priority, changeFrequency }) => ({
+  const enEntries = pages.map(({ path, priority, changeFrequency }) => ({
     url: `${BASE_URL}${path}`,
     lastModified: LAST_MODIFIED,
     changeFrequency,
@@ -33,4 +31,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
   }));
+
+  // Turkish pages as standalone <url> entries — Google prefers explicit locale
+  // URLs over alternates-only entries for bilingual sites.
+  const trEntries = pages.map(({ path, priority, changeFrequency }) => ({
+    url: `${BASE_URL}/tr${path}`,
+    lastModified: LAST_MODIFIED,
+    changeFrequency,
+    priority: priority * 0.9,
+    alternates: {
+      languages: {
+        "x-default": `${BASE_URL}${path}`,
+        en: `${BASE_URL}${path}`,
+        tr: `${BASE_URL}/tr${path}`,
+      },
+    },
+  }));
+
+  return [...enEntries, ...trEntries];
 }

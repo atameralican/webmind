@@ -133,7 +133,9 @@
     "links": "Links",
     "home": "Home",
     "webllm": "WebLLM",
-    "transformers": "Transformers.js"
+    "transformers": "Transformers.js",
+    "about": "About",
+    "privacy": "Privacy Policy"
   },
   "errors": {
     "modelLoad": "Failed to load model. Please try again.",

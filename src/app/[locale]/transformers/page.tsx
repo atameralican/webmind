@@ -116,7 +116,7 @@ export default function TransformersPage() {
               <Zap className="h-3 w-3" />
               Transformers.js · Hugging Face
             </Badge>
-            <h1 className="font-bold text-lg hidden sm:block gradient-text">{t("title")}</h1>
+            <h1 className="font-bold text-lg gradient-text">{t("title")}</h1>
           </div>
         </div>
       </div>

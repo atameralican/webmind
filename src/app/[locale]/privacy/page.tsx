@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import { Shield, Eye, Cookie, Code, BarChart3, ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://webmind-ai.vercel.app" },
+    { "@type": "ListItem", position: 2, name: "Privacy Policy", item: "https://webmind-ai.vercel.app/privacy" },
+  ],
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -229,6 +238,10 @@ export default async function PrivacyPage({
 
   return (
     <div className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       {/* Header */}
       <div className="border-b border-border/50 bg-muted/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 max-w-4xl">

@@ -13,63 +13,108 @@ Your data never leaves your device. There are no API calls to external servers d
 
 ## Supported LLM Models (WebLLM)
 
-| Model | Provider | Size | Quantization | License |
-|---|---|---|---|---|
-| Llama 3.2 1B Instruct | Meta | 800 MB | q4f32 | Llama 3.2 Community |
-| Llama 3.2 3B Instruct | Meta | 1.9 GB | q4f32 | Llama 3.2 Community |
-| Phi-3.5 Mini Instruct | Microsoft | 2.2 GB | q4f16 | MIT |
-| Gemma 2 2B IT | Google | 1.5 GB | q4f32 | Gemma |
-| Qwen 2.5 1.5B Instruct | Alibaba | 950 MB | q4f32 | Apache 2.0 |
-| Qwen 2.5 7B Instruct | Alibaba | 4.5 GB | q4f16 | Apache 2.0 |
-| Mistral 7B Instruct v0.3 | Mistral AI | 4.3 GB | q4f16 | Apache 2.0 |
-| SmolLM2 1.7B Instruct | Hugging Face | 1.1 GB | q4f16 | Apache 2.0 |
-| DeepSeek R1 Distill 1.5B | DeepSeek | 1.0 GB | q4f32 | MIT |
+| Model | Provider | Parameters | Size | VRAM Required | Quantization | License | Best For |
+|---|---|---|---|---|---|---|---|
+| Llama 3.2 1B Instruct | Meta | 1B | 800 MB | 1 GB | q4f32 | Llama 3.2 Community | Quick Q&A, low-end devices |
+| Llama 3.2 3B Instruct | Meta | 3B | 1.9 GB | 2 GB | q4f32 | Llama 3.2 Community | Conversational AI, translation |
+| Phi-3.5 Mini Instruct | Microsoft | 3.8B | 2.2 GB | 2.5 GB | q4f16 | MIT | Math, STEM, reasoning |
+| Gemma 2 2B IT | Google | 2B | 1.5 GB | 2 GB | q4f32 | Gemma Terms | Multilingual chat, writing |
+| Qwen 2.5 1.5B Instruct | Alibaba | 1.5B | 950 MB | 1 GB | q4f32 | Apache 2.0 | Multilingual apps, Asian languages |
+| Qwen 2.5 7B Instruct | Alibaba | 7B | 4.5 GB | 6 GB | q4f16 | Apache 2.0 | Complex reasoning, 100+ languages |
+| Mistral 7B Instruct v0.3 | Mistral AI | 7B | 4.3 GB | 5 GB | q4f16 | Apache 2.0 | General chat, coding |
+| SmolLM2 1.7B Instruct | Hugging Face | 1.7B | 1.1 GB | 1.5 GB | q4f16 | Apache 2.0 | Browser-optimized, mobile AI |
+| DeepSeek R1 Distill 1.5B | DeepSeek | 1.5B | 1.0 GB | 1 GB | q4f32 | MIT | Math, logic, chain-of-thought |
 
 ## Supported AI Tasks (Transformers.js)
 
-**NLP (Text)**
-- Sentiment Analysis — DistilBERT (67 MB)
-- Named Entity Recognition — BERT NER (420 MB)
-- Translation (200+ languages) — NLLB-200 (1.2 GB)
-- Text Summarization — DistilBART (700 MB)
-- Question Answering — DistilBERT QA (260 MB)
-- Zero-Shot Classification — BART (1.6 GB)
-- Text Generation — LaMini (940 MB)
+### NLP / Text Tasks
+- **Sentiment Analysis** — DistilBERT (67 MB, CPU compatible) — positive/negative/neutral text classification
+- **Named Entity Recognition** — BERT NER (420 MB, CPU compatible) — extracts people, places, organizations from text
+- **Translation (200 languages)** — NLLB-200 Meta (1.2 GB, CPU compatible) — including Turkish, Kurdish, rare languages
+- **Text Summarization** — DistilBART (700 MB, CPU compatible) — condenses long documents
+- **Question Answering** — DistilBERT QA (260 MB, CPU compatible) — extracts answers from context
+- **Zero-Shot Classification** — BART (1.6 GB) — custom category labels without training
+- **Text Generation** — LaMini (940 MB) — instruction-following rewriting and paraphrasing
 
-**Vision (Image)**
-- Image Classification (1000 ImageNet classes) — ViT (330 MB)
-- Object Detection — DETR (160 MB)
-- Depth Estimation — Depth Anything (100 MB)
+### Vision / Image Tasks
+- **Image Classification** — ViT Google (330 MB) — 1000 ImageNet categories
+- **Object Detection** — DETR Meta (160 MB) — locates and identifies objects with bounding boxes
+- **Depth Estimation** — Depth Anything ByteDance (100 MB) — creates depth maps from 2D images
 
-**Audio**
-- Speech Recognition (99 languages) — Whisper Tiny (150 MB)
+### Audio Tasks
+- **Speech Recognition** — Whisper Tiny OpenAI (150 MB, CPU compatible) — transcribes audio in 99 languages
 
-**Multimodal**
-- Image-Text Matching — CLIP (600 MB)
+### Multimodal Tasks
+- **Image-Text Matching** — CLIP OpenAI (600 MB) — matches images to text descriptions with custom labels
 
-## Technical Requirements
+## Technical Details
 
-- **Browsers**: Chrome 113+ or Edge 113+ (WebGPU required for LLMs)
-- **WebAssembly fallback**: Transformers.js models work via CPU/WASM on Firefox and Safari
-- **VRAM**: Ranges from 1 GB (Llama 1B) to 6 GB (7B models)
-- **Storage**: Models are cached in the browser's cache storage after first download
+### Browser Requirements
+- **WebLLM (LLMs)**: Chrome 113+ or Edge 113+ with WebGPU enabled
+- **Transformers.js**: All modern browsers (WebAssembly fallback works on Firefox and Safari)
+- **SharedArrayBuffer**: Required for multi-threaded WebLLM inference (enabled on HTTPS)
+
+### Architecture
+- Next.js 16 App Router (TypeScript)
+- WebGPU API for GPU-accelerated inference
+- WebAssembly (ONNX Runtime Web) for CPU fallback
+- Cross-Origin-Opener-Policy: same-origin (required for SharedArrayBuffer)
+- Models cached in browser Cache Storage after first download
+
+### Performance Characteristics
+- Small models (1B, ~800 MB): Load in 30–60 seconds on broadband; inference at 15–40 tokens/sec
+- Medium models (3B, ~2 GB): Load in 1–3 minutes; inference at 8–20 tokens/sec
+- Large models (7B, ~4.5 GB): Load in 3–8 minutes; inference at 3–10 tokens/sec
+- After first download: model loads from cache in 5–30 seconds
 
 ## Privacy & Data Handling
 
 - Model inference is 100% local — inputs and outputs never leave the device
 - No user accounts, no login, no personal data collected
-- Vercel Analytics collects anonymized pageview data only (no inference content)
+- Vercel Analytics collects anonymized pageview data only (URL, country, device type, referrer — no inference content)
 - NEXT_LOCALE cookie stores language preference (1 year, no personal data)
+- No advertising cookies, no tracking pixels, no third-party cookies
 - Open source: verify at https://github.com/atameralican
+
+## Frequently Asked Questions
+
+**Q: What makes WebMind AI different from ChatGPT or Claude?**
+A: ChatGPT and Claude send your prompts to OpenAI/Anthropic servers and require accounts. WebMind AI runs entirely in your browser — your prompts never leave your device, no account is needed, and it's free and open source.
+
+**Q: How is WebMind AI different from Ollama or LM Studio?**
+A: Ollama and LM Studio require installation on your computer and admin privileges. WebMind AI runs in a browser tab — no installation, no admin rights, works on any shared computer or school laptop.
+
+**Q: Does WebMind AI work offline?**
+A: Yes, after the initial model download. Models are cached in your browser's storage. Once downloaded, you can disconnect from the internet and continue using the model.
+
+**Q: Which models are best for privacy-sensitive documents?**
+A: All WebMind AI models are equally private — none send data to servers. For sensitive work, Phi-3.5 Mini (MIT license, 2.2 GB) or Llama 3.2 3B (1.9 GB) offer good quality at manageable sizes.
+
+**Q: Can Transformers.js run on Firefox or Safari?**
+A: Yes. Transformers.js uses ONNX Runtime with WebAssembly fallback, which works on all modern browsers. WebGPU acceleration is Chrome/Edge only, but CPU inference runs on Firefox and Safari.
+
+**Q: What is the smallest model I can run?**
+A: The smallest model is DistilBERT Sentiment at 67 MB (text classification only). For LLM chat, Llama 3.2 1B at 800 MB is the smallest option and runs on devices with 1 GB VRAM.
+
+**Q: Is WebMind AI HIPAA compliant?**
+A: WebMind AI's architecture (100% local inference, no cloud transmission) is favorable for HIPAA scenarios because PHI never leaves the device. However, WebMind AI itself is not a HIPAA Business Associate and provides no BAA. Compliance depends on your full system configuration.
+
+## Use Cases
+
+- **Healthcare**: Summarize clinical notes without PHI leaving the workstation
+- **Legal**: Analyze documents without waiving attorney-client privilege to cloud services
+- **Education**: Students can use AI on school computers without creating accounts
+- **Developers**: Build browser-native AI features without API keys or inference costs
+- **Enterprise**: Evaluate LLMs without sending proprietary data to third-party APIs
 
 ## Key Facts
 
 - License: MIT (open source)
-- Languages: English, Turkish
+- Languages: English, Turkish (auto-detection via Accept-Language header)
 - Creator: Alican Atamer
 - GitHub: https://github.com/atameralican
 - LinkedIn: https://www.linkedin.com/in/alican-atamer/
-- Built with: Next.js 16, WebGPU API, MLC AI WebLLM, Hugging Face Transformers.js, Tailwind CSS v4
+- Built with: Next.js 16, WebGPU API, MLC AI WebLLM, Hugging Face Transformers.js, Tailwind CSS v4, next-intl
 
 ## URLs
 
@@ -78,4 +123,8 @@ Your data never leaves your device. There are no API calls to external servers d
 - Transformers.js interface: https://webmind-ai.vercel.app/transformers
 - About: https://webmind-ai.vercel.app/about
 - Privacy Policy: https://webmind-ai.vercel.app/privacy
-- Turkish: https://webmind-ai.vercel.app/tr
+- Turkish homepage: https://webmind-ai.vercel.app/tr
+- Turkish WebLLM: https://webmind-ai.vercel.app/tr/webllm
+- Turkish Transformers: https://webmind-ai.vercel.app/tr/transformers
+- AI crawler index: https://webmind-ai.vercel.app/llms.txt
+- Sitemap: https://webmind-ai.vercel.app/sitemap.xml

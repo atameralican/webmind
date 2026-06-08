@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
-import { ExternalLink, Cpu, Zap, Home } from "lucide-react";
+import { ExternalLink, Cpu, Zap, Home, Info, Shield } from "lucide-react";
 import { motion } from "framer-motion";
 
 function GitHubIcon({ className }: { className?: string }) {
@@ -86,6 +86,8 @@ export function Footer() {
                 { href: localePath("/"), label: t("home"), icon: <Home className="h-3.5 w-3.5" /> },
                 { href: localePath("/webllm"), label: t("webllm"), icon: <Cpu className="h-3.5 w-3.5" /> },
                 { href: localePath("/transformers"), label: t("transformers"), icon: <Zap className="h-3.5 w-3.5" /> },
+                { href: localePath("/about"), label: t("about"), icon: <Info className="h-3.5 w-3.5" /> },
+                { href: localePath("/privacy"), label: t("privacy"), icon: <Shield className="h-3.5 w-3.5" /> },
               ].map((link) => (
                 <li key={link.href}>
                   <Link

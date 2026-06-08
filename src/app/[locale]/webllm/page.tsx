@@ -161,7 +161,7 @@ export default function WebLLMPage() {
                 <Cpu className="h-3 w-3" />
                 WebLLM · MLC AI
               </Badge>
-              <h1 className="font-bold text-lg hidden sm:block gradient-text">{t("title")}</h1>
+              <h1 className="font-bold text-lg gradient-text">{t("title")}</h1>
             </div>
             <CompactWebGPUStatus caps={webgpuCaps} />
           </div>
