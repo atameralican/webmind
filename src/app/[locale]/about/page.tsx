@@ -8,12 +8,20 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const isTr = locale === "tr";
   return {
-    title: locale === "tr" ? "Hakkında — WebMind" : "About — WebMind",
-    description:
-      locale === "tr"
-        ? "WebMind hakkında — tarayıcıda yapay zeka modelleri çalıştırmak için açık kaynaklı platform."
-        : "About WebMind — run AI models directly in your browser. Free, private, no server.",
+    title: isTr ? "Hakkında — WebMind AI" : "About WebMind AI — Open Source Browser AI",
+    description: isTr
+      ? "WebMind hakkında — tarayıcıda WebGPU ile yapay zeka modelleri çalıştırmak için açık kaynaklı platform. Alican Atamer tarafından yapıldı."
+      : "About WebMind — the open-source platform for running AI models directly in your browser with WebGPU. No server, no cost, complete privacy. Built by Alican Atamer.",
+    alternates: {
+      canonical: isTr ? "/tr/about" : "/about",
+      languages: {
+        "x-default": "/about",
+        en: "/about",
+        tr: "/tr/about",
+      },
+    },
   };
 }
 
@@ -110,6 +118,51 @@ export default async function AboutPage({
           </div>
         </section>
 
+        {/* Creator — E-E-A-T: establishes author expertise and identity */}
+        <section>
+          <h2 className="text-2xl font-bold mb-6">
+            {isTr ? "Geliştirici" : "Creator"}
+          </h2>
+          <div className="glass rounded-2xl p-6 border border-border hover:border-primary/30 transition-colors">
+            <div className="flex items-start gap-4">
+              <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 text-xl">
+                👨‍💻
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold text-lg mb-1">Alican Atamer</h3>
+                <p className="text-sm text-primary mb-3">
+                  {isTr ? "Yazılım Geliştirici & Açık Kaynak Meraklısı" : "Software Developer & Open Source Enthusiast"}
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                  {isTr
+                    ? "WebMind, tarayıcıda yapay zeka çalıştırmanın bu kadar kolay olmasını sağlayan WebGPU ve WebAssembly teknolojilerini keşfetme merakından doğdu. Amaç basit: güçlü yapay zeka modellerini herkes için, kurulum gerektirmeden ve hiçbir gizlilik ödünü vermeden erişilebilir kılmak."
+                    : "WebMind grew out of curiosity about how WebGPU and WebAssembly make running AI in the browser genuinely viable. The goal is simple: make powerful AI models accessible to everyone — without installation, without a cloud bill, without any privacy compromise."}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href="https://github.com/atameralican"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border border-border bg-muted/50 hover:border-primary/40 hover:text-primary transition-colors"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    GitHub
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/alican-atamer/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border border-border bg-muted/50 hover:border-primary/40 hover:text-primary transition-colors"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    LinkedIn
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Tech stack */}
         <section>
           <h2 className="text-2xl font-bold mb-4">
@@ -134,6 +187,19 @@ export default async function AboutPage({
               </a>
             ))}
           </div>
+        </section>
+
+        {/* Privacy note */}
+        <section className="border-t border-border/50 pt-12">
+          <p className="text-sm text-muted-foreground">
+            {isTr
+              ? "WebMind'ın veri işleme uygulamaları hakkında daha fazla bilgi için "
+              : "For more on how WebMind handles your data, see the "}
+            <a href={isTr ? "/tr/privacy" : "/privacy"} className="text-primary hover:underline">
+              {isTr ? "Gizlilik Politikası" : "Privacy Policy"}
+            </a>
+            {isTr ? "'na bakın." : "."}
+          </p>
         </section>
       </div>
     </div>

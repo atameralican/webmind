@@ -131,6 +131,13 @@ export function Hero() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // Respect prefers-reduced-motion: skip canvas entirely for users who
+    // have requested reduced motion (also benefits INP on low-end devices).
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (prefersReducedMotion) return;
+
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -138,7 +145,23 @@ export function Hero() {
     };
 
     resize();
-    animate();
+
+    // IntersectionObserver: pause the rAF loop when hero scrolls out of
+    // view — reduces main-thread load which improves INP on inner pages.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!animFrameRef.current) animate();
+        } else {
+          if (animFrameRef.current) {
+            cancelAnimationFrame(animFrameRef.current);
+            animFrameRef.current = null;
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(canvas);
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
@@ -150,6 +173,7 @@ export function Hero() {
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", handleMouseMove);
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);

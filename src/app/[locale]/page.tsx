@@ -20,7 +20,11 @@ export async function generateMetadata({
       : "Run WebGPU-powered AI models in your browser with WebLLM and Transformers.js. No server, no cloud, complete privacy.",
     alternates: {
       canonical: locale === "tr" ? "/tr" : "/",
-      languages: { "en": "/", "tr": "/tr" },
+      languages: {
+        "x-default": "/",
+        "en": "/",
+        "tr": "/tr",
+      },
     },
   };
 }

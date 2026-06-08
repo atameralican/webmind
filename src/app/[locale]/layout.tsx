@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -11,7 +12,17 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
 import "../globals.css";
 
-// SEO — Tüm sayfalara uygulanır, her sayfa kendi metadata'sını override edebilir
+// next/font/google self-hosts Inter on Vercel's CDN — eliminates the
+// render-blocking request to fonts.googleapis.com and removes font layout
+// shift. This is the primary LCP improvement in this file.
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+// Global metadata — individual pages override via generateMetadata
 export const metadata: Metadata = {
   metadataBase: new URL("https://webmind-ai.vercel.app"),
   title: {
@@ -21,11 +32,24 @@ export const metadata: Metadata = {
   description:
     "Run powerful AI models — WebLLM LLMs and Transformers.js tasks — directly in your browser using WebGPU. No server, no cloud, complete privacy.",
   keywords: [
-    "WebMind", "browser AI", "local AI browser", "WebGPU AI", "run AI in browser",
-    "WebLLM", "Transformers.js", "local LLM", "offline AI", "private AI",
-    "in-browser AI", "LLM", "Llama", "Phi", "Gemma", "privacy-first AI",
-    "client-side AI", "edge AI inference", "web AI platform",
-    "tarayıcı yapay zeka", "yerel yapay zeka", "WebGPU modelleri",
+    "WebMind",
+    "browser AI",
+    "local AI browser",
+    "WebGPU AI",
+    "run AI in browser",
+    "WebLLM",
+    "Transformers.js",
+    "local LLM",
+    "offline AI",
+    "private AI",
+    "in-browser AI",
+    "client-side AI",
+    "edge AI inference",
+    "web AI platform",
+    "Llama browser",
+    "Phi browser",
+    "Gemma browser",
+    "privacy-first AI",
   ],
   authors: [{ name: "Alican Atamer", url: "https://github.com/atameralican" }],
   creator: "Alican Atamer",
@@ -33,10 +57,18 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://webmind-ai.vercel.app",
-    siteName: "WebMind",
+    siteName: "WebMind AI",
     title: "WebMind AI — Run AI Models in Your Browser",
-    description: "WebGPU-powered AI models running directly in your browser. No server required.",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "WebMind — Browser AI Hub" }],
+    description:
+      "WebGPU-powered AI models running directly in your browser. No server required.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "WebMind AI — Browser AI Platform",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -48,64 +80,141 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large" },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+    },
   },
   verification: {
     google: "bvZZ8jKx59FGixcKj0pF23HBKdXdZ4VsBfYYZd57ABw",
   },
 };
 
-// JSON-LD yapılandırılmış veri — SEO için
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  name: "WebMind",
-  description: "Run AI models directly in your browser using WebGPU",
-  url: "https://actigravity-ai.vercel.app",
-  author: {
+// Three schema blocks injected globally:
+// 1. SoftwareApplication — enables Google rich results for the app itself
+// 2. WebSite — establishes the site entity and enables Sitelinks Searchbox
+// 3. Person — builds Alican Atamer's Knowledge Graph entity as creator
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "WebMind AI",
+    alternateName: "WebMind",
+    description:
+      "Run powerful AI models — WebLLM LLMs and Transformers.js tasks — directly in your browser using WebGPU. No server, no cloud, complete privacy.",
+    url: "https://webmind-ai.vercel.app",
+    applicationCategory: "DeveloperApplication",
+    applicationSubCategory: "Artificial Intelligence",
+    operatingSystem: "Chrome 113+, Edge 113+",
+    browserRequirements:
+      "Requires WebGPU support. Compatible with Chrome 113+ and Edge 113+.",
+    featureList: [
+      "Run large language models (LLMs) in-browser with WebLLM",
+      "Run NLP, vision, audio and multimodal models with Transformers.js",
+      "WebGPU hardware acceleration",
+      "Complete data privacy — no server or API calls during inference",
+      "Offline-capable after initial model download",
+      "Fully open source (MIT license)",
+      "Supports Llama, Phi, Gemma, Qwen, Mistral, DeepSeek models",
+      "Available in English and Turkish",
+    ],
+    screenshot: "https://webmind-ai.vercel.app/opengraph-image",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    isAccessibleForFree: true,
+    inLanguage: ["en", "tr"],
+    author: {
+      "@type": "Person",
+      name: "Alican Atamer",
+      url: "https://webmind-ai.vercel.app/about",
+      sameAs: [
+        "https://github.com/atameralican",
+        "https://www.linkedin.com/in/alican-atamer/",
+        "https://twitter.com/atameralican",
+      ],
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "WebMind AI",
+    alternateName: "WebMind",
+    url: "https://webmind-ai.vercel.app",
+    description:
+      "Open-source browser AI platform — run LLMs and ML models in-browser with WebGPU. No server, complete privacy.",
+    inLanguage: ["en", "tr"],
+    author: {
+      "@type": "Person",
+      name: "Alican Atamer",
+      sameAs: [
+        "https://github.com/atameralican",
+        "https://www.linkedin.com/in/alican-atamer/",
+      ],
+    },
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "Person",
     name: "Alican Atamer",
-    url: "https://github.com/atameralican",
+    url: "https://webmind-ai.vercel.app/about",
+    jobTitle: "Software Developer",
+    knowsAbout: [
+      "WebGPU",
+      "Large Language Models",
+      "Browser-based AI inference",
+      "Next.js",
+      "Open Source Development",
+      "Transformers.js",
+    ],
+    sameAs: [
+      "https://github.com/atameralican",
+      "https://www.linkedin.com/in/alican-atamer/",
+      "https://twitter.com/atameralican",
+    ],
+    creator: {
+      "@type": "SoftwareApplication",
+      name: "WebMind AI",
+      url: "https://webmind-ai.vercel.app",
+    },
   },
-  applicationCategory: "DeveloperApplication",
-  operatingSystem: "Web Browser",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-};
+];
 
 interface RootLayoutProps {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }
 
-export default async function RootLayout({ children, params }: RootLayoutProps) {
+export default async function RootLayout({
+  children,
+  params,
+}: RootLayoutProps) {
   const { locale } = await params;
 
-  // Geçersiz locale = 404
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  // Dil mesajlarını yükle
   const messages = await getMessages();
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
-        {/* JSON-LD Yapılandırılmış Veri */}
+        {/* Structured data — three schema blocks for App, Site, and Author */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Inter Google Font */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
+        {/* Author entity links — strengthens E-E-A-T association */}
+        <link rel="me" href="https://github.com/atameralican" />
+        <link rel="me" href="https://www.linkedin.com/in/alican-atamer/" />
       </head>
-      <body className="min-h-screen antialiased">
-        {/* Google Analytics 4 — afterInteractive strateji ile performansı etkilemez */}
+      <body className={`${inter.className} min-h-screen antialiased`}>
+        {/* Google Analytics 4 — afterInteractive keeps it off the critical path */}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <Script
@@ -133,9 +242,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
           </Providers>
         </NextIntlClientProvider>
 
-        {/* Vercel Analytics */}
         <Analytics />
-        {/* Vercel Speed Insights — Core Web Vitals */}
         <SpeedInsights />
       </body>
     </html>
